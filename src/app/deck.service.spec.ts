@@ -254,5 +254,28 @@ describe('DeckService', () => {
 
       expect(p1Hand.map((c) => c.id)).toEqual(p2Hand.map((c) => c.id));
     });
+
+    it('should initialize deck atomically with initializeDeck method', () => {
+      const seed = 12345;
+      service.initializeDeck(seed);
+
+      expect(service.getRemainingCards()).toBe(24);
+      expect(service.getDeck().length).toBe(24);
+
+      // Should produce same result as manual steps
+      const deck2 = new DeckService();
+      deck2.reset();
+      deck2.createDeck();
+      deck2.shuffle(seed);
+
+      expect(service.getDeck().map((c) => c.id)).toEqual(deck2.getDeck().map((c) => c.id));
+    });
+
+    it('should initialize deck without seed for random shuffle', () => {
+      service.initializeDeck();
+
+      expect(service.getRemainingCards()).toBe(24);
+      expect(service.getDeck().length).toBe(24);
+    });
   });
 });

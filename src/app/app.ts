@@ -27,10 +27,8 @@ export class App {
   }
 
   private initializeGame() {
-    // Create and shuffle the deck
-    this.deckService.reset();
-    this.deckService.createDeck();
-    this.deckService.shuffle();
+    // Initialize deck (create, shuffle) and deal cards to players
+    this.deckService.initializeDeck();
     
     // Deal 5 cards to each player
     const playerCards = this.deckService.deal(5);

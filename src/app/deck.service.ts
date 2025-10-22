@@ -111,4 +111,16 @@ export class DeckService {
     this.deck = [];
     this.nextCardId = 0;
   }
+
+  /**
+   * Initialize a new deck ready for play
+   * Creates deck, shuffles it, and returns the shuffled deck
+   * @param seed Optional seed for deterministic shuffling
+   * @returns Shuffled deck ready for dealing
+   */
+  initializeDeck(seed?: number): Card[] {
+    this.reset();
+    this.createDeck();
+    return this.shuffle(seed);
+  }
 }
