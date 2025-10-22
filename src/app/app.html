@@ -1,0 +1,65 @@
+<div class="game-container">
+  <header class="game-header">
+    <h1>🎃 {{ title() }} 🎃</h1>
+    <p class="subtitle">A Halloween twist on Go Fish!</p>
+  </header>
+
+  <div class="game-message">
+    <p>{{ gameMessage() }}</p>
+  </div>
+
+  <div class="score-board">
+    <div class="score">
+      <h3>Your Score</h3>
+      <div class="score-value">{{ playerScore() }}</div>
+    </div>
+    <div class="score">
+      <h3>Opponent Score</h3>
+      <div class="score-value">{{ opponentScore() }}</div>
+    </div>
+  </div>
+
+  @if (!gameStarted()) {
+    <div class="start-screen">
+      <button class="start-button" (click)="startGame()">🎃 Start Game 🎃</button>
+      <div class="instructions">
+        <h3>How to Play:</h3>
+        <ul>
+          <li>Ask your opponent for cards matching your hand</li>
+          <li>Match pairs to score points</li>
+          <li>If no match, "Go Bone Yourself!" and draw a card</li>
+          <li>Most pairs wins!</li>
+        </ul>
+      </div>
+    </div>
+  } @else {
+    <div class="game-board">
+      <section class="opponent-section">
+        <h3>Opponent's Hand</h3>
+        <div class="card-row">
+          @for (card of [].constructor(opponentHandSize()); track $index) {
+            <div class="card card-back">🎴</div>
+          }
+        </div>
+      </section>
+
+      <section class="player-section">
+        <h3>Your Hand</h3>
+        <div class="card-row">
+          @for (card of playerHand(); track card.id) {
+            <div class="card card-front" (click)="askForCard(card.type)">
+              <span class="card-emoji">{{ getCardEmoji(card.type) }}</span>
+              <span class="card-label">{{ card.type }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  }
+
+  <footer class="game-footer">
+    <p>Made with 💀 for Halloween</p>
+  </footer>
+</div>
+
+<router-outlet />

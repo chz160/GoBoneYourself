@@ -1,0 +1,251 @@
+/* Halloween-themed styles for Go Bone Yourself */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 50%, #1a0b2e 100%);
+  color: #f0e6d2;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.game-header {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(255, 140, 0, 0.1);
+  border-radius: 15px;
+  border: 2px solid #ff8c00;
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+}
+
+.game-header h1 {
+  font-size: 3rem;
+  margin: 0;
+  color: #ff8c00;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: float 3s ease-in-out infinite;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #f0e6d2;
+  margin: 10px 0 0 0;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.game-message {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #8b4789;
+  min-height: 50px;
+}
+
+.game-message p {
+  font-size: 1.3rem;
+  margin: 0;
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.score-board {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.score {
+  background: rgba(139, 71, 137, 0.2);
+  padding: 20px 40px;
+  border-radius: 15px;
+  border: 2px solid #8b4789;
+  min-width: 150px;
+}
+
+.score h3 {
+  margin: 0 0 10px 0;
+  color: #f0e6d2;
+  font-size: 1.1rem;
+}
+
+.score-value {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ff8c00;
+  text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+}
+
+.start-screen {
+  margin-top: 40px;
+}
+
+.start-button {
+  background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+  border: none;
+  color: white;
+  padding: 20px 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(255, 140, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(255, 140, 0, 0.6);
+}
+
+.start-button:active {
+  transform: scale(0.95);
+}
+
+.instructions {
+  margin-top: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 30px;
+  border-radius: 15px;
+  border: 2px solid #8b4789;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.instructions h3 {
+  color: #ff8c00;
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.instructions ul {
+  text-align: left;
+  line-height: 2;
+  font-size: 1.1rem;
+}
+
+.instructions li {
+  margin-bottom: 10px;
+}
+
+.game-board {
+  margin-top: 30px;
+}
+
+.opponent-section,
+.player-section {
+  margin-bottom: 40px;
+}
+
+.opponent-section h3,
+.player-section h3 {
+  color: #ff8c00;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.card-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 120px;
+  height: 160px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-back {
+  background: linear-gradient(135deg, #2d1b4e 0%, #4a2d6e 100%);
+  border: 2px solid #8b4789;
+}
+
+.card-front {
+  background: linear-gradient(135deg, #ff8c00 0%, #ffa500 100%);
+  border: 2px solid #ff6b00;
+  cursor: pointer;
+}
+
+.card-front:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.5);
+}
+
+.card-front:active {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.card-emoji {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.card-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.game-footer {
+  margin-top: 60px;
+  padding: 20px;
+  color: #8b4789;
+  font-style: italic;
+}
+
+.game-footer p {
+  margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .game-header h1 {
+    font-size: 2rem;
+  }
+
+  .score-board {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card {
+    width: 90px;
+    height: 120px;
+    font-size: 2rem;
+  }
+
+  .card-emoji {
+    font-size: 2.5rem;
+  }
+
+  .card-label {
+    font-size: 0.7rem;
+  }
+}
