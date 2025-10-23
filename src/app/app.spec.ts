@@ -75,4 +75,37 @@ describe('App', () => {
     const validTypes = ['bone', 'skull', 'pumpkin', 'ghost', 'bat', 'witch'];
     expect(playerHand.every(card => validTypes.includes(card.type))).toBe(true);
   });
+
+  it('should initialize deck count after dealing cards', () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    
+    app.startGame();
+    
+    // After dealing 5 cards to each player (10 total), 14 cards should remain
+    expect(app.deckCount()).toBe(14);
+  });
+
+  it('should update deck count when drawing cards', () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    
+    app.startGame();
+    const initialDeckCount = app.deckCount();
+    
+    // Ask for a card that opponent doesn't have to trigger a draw
+    const playerHand = app.playerHand();
+    const opponentHand = app.opponentHand();
+    
+    // Find a card type the player has but opponent doesn't
+    const playerType = playerHand.find(card => 
+      !opponentHand.some(oCard => oCard.type === card.type)
+    )?.type;
+    
+    if (playerType) {
+      app.askForCard(playerType);
+      // Deck count should decrease by 1 after drawing
+      expect(app.deckCount()).toBe(initialDeckCount - 1);
+    }
+  });
 });
