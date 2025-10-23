@@ -1,13 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
-interface Card {
-  id: number;
-  value: string;
-  type: 'bone' | 'skull' | 'pumpkin' | 'ghost' | 'bat' | 'witch';
-  faceUp: boolean;
-}
+import { DeckService, Card, CardType } from './deck.service';
 
 @Component({
   selector: 'app-root',
@@ -18,11 +12,14 @@ interface Card {
 export class App {
   readonly title = signal('Go Bone Yourself');
   readonly playerHand = signal<Card[]>([]);
+  readonly opponentHand = signal<Card[]>([]);
   readonly opponentHandSize = signal(0);
   readonly playerScore = signal(0);
   readonly opponentScore = signal(0);
   readonly gameMessage = signal('Welcome to Go Bone Yourself! Click "Start Game" to begin.');
   readonly gameStarted = signal(false);
+  
+  private deckService = new DeckService();
 
   startGame() {
     this.gameStarted.set(true);
@@ -30,43 +27,53 @@ export class App {
   }
 
   private initializeGame() {
-    // Initialize player hand with 5 random cards
-    const cards: Card[] = [];
-    const types: Card['type'][] = ['bone', 'skull', 'pumpkin', 'ghost', 'bat', 'witch'];
+    // Initialize deck (create, shuffle) and deal cards to players
+    this.deckService.initializeDeck();
     
-    for (let i = 0; i < 5; i++) {
-      const randomType = types[Math.floor(Math.random() * types.length)];
-      cards.push({
-        id: i,
-        value: randomType,
-        type: randomType,
-        faceUp: true
-      });
-    }
+    // Deal 5 cards to each player
+    const playerCards = this.deckService.deal(5);
+    const opponentCards = this.deckService.deal(5);
     
-    this.playerHand.set(cards);
-    this.opponentHandSize.set(5);
+    this.playerHand.set(playerCards);
+    this.opponentHand.set(opponentCards);
+    this.opponentHandSize.set(opponentCards.length);
     this.playerScore.set(0);
     this.opponentScore.set(0);
     this.gameMessage.set('Ask your opponent for a card type!');
   }
 
-  askForCard(type: Card['type']) {
+  askForCard(type: CardType) {
     if (!this.gameStarted()) return;
     
-    const hasMatch = Math.random() > 0.5; // Simplified game logic
+    // Check if opponent has the requested card type
+    const opponentCards = this.opponentHand();
+    const matchingCard = opponentCards.find(card => card.type === type);
     
-    if (hasMatch) {
-      this.gameMessage.set(`Go bone yourself! Opponent has a ${type}!`);
+    if (matchingCard) {
+      // Opponent has the card - player scores
+      this.gameMessage.set(`Match! Opponent has a ${type}!`);
       this.playerScore.update(score => score + 1);
+      
+      // Remove card from opponent's hand and add to player's hand
+      const updatedOpponentHand = opponentCards.filter(card => card.id !== matchingCard.id);
+      this.opponentHand.set(updatedOpponentHand);
+      this.opponentHandSize.set(updatedOpponentHand.length);
+      this.playerHand.update(hand => [...hand, matchingCard]);
     } else {
-      this.gameMessage.set(`No match! Go bone yourself and draw a card!`);
+      // No match - draw a card
+      const drawnCards = this.deckService.deal(1);
+      if (drawnCards.length > 0) {
+        this.gameMessage.set(`No match! Go bone yourself and draw a card!`);
+        this.playerHand.update(hand => [...hand, drawnCards[0]]);
+      } else {
+        this.gameMessage.set(`No match and no cards left to draw!`);
+      }
       this.opponentScore.update(score => score + 1);
     }
   }
 
-  getCardEmoji(type: Card['type']): string {
-    const emojiMap: Record<Card['type'], string> = {
+  getCardEmoji(type: CardType): string {
+    const emojiMap: Record<CardType, string> = {
       'bone': '🦴',
       'skull': '💀',
       'pumpkin': '🎃',

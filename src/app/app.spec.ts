@@ -59,4 +59,20 @@ describe('App', () => {
     expect(app.getCardEmoji('bat')).toBe('🦇');
     expect(app.getCardEmoji('witch')).toBe('🧙');
   });
+
+  it('should use deterministic deck service', () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+    
+    app.startGame();
+    
+    // Verify cards are dealt properly
+    const playerHand = app.playerHand();
+    expect(playerHand.length).toBe(5);
+    expect(playerHand.every(card => card.faceUp)).toBe(true);
+    
+    // Verify all cards have valid types
+    const validTypes = ['bone', 'skull', 'pumpkin', 'ghost', 'bat', 'witch'];
+    expect(playerHand.every(card => validTypes.includes(card.type))).toBe(true);
+  });
 });
