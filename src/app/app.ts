@@ -14,6 +14,7 @@ export class App {
   readonly playerHand = signal<Card[]>([]);
   readonly opponentHand = signal<Card[]>([]);
   readonly opponentHandSize = signal(0);
+  readonly deckCount = signal(0);
   readonly playerScore = signal(0);
   readonly opponentScore = signal(0);
   readonly gameMessage = signal('Welcome to Go Bone Yourself! Click "Start Game" to begin.');
@@ -37,6 +38,7 @@ export class App {
     this.playerHand.set(playerCards);
     this.opponentHand.set(opponentCards);
     this.opponentHandSize.set(opponentCards.length);
+    this.deckCount.set(this.deckService.getRemainingCards());
     this.playerScore.set(0);
     this.opponentScore.set(0);
     this.gameMessage.set('Ask your opponent for a card type!');
@@ -68,6 +70,7 @@ export class App {
       } else {
         this.gameMessage.set(`No match and no cards left to draw!`);
       }
+      this.deckCount.set(this.deckService.getRemainingCards());
       this.opponentScore.update(score => score + 1);
     }
   }
